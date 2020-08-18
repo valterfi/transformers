@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aequilibrium.transformers.exception.TransformerException;
@@ -18,17 +19,18 @@ import com.aequilibrium.transformers.model.Transformer;
 import com.aequilibrium.transformers.service.TransformerService;
 
 @RestController
+@RequestMapping("/api/transformers")
 public class TransformerController {
 	
 	@Autowired
 	private TransformerService transformerService;
 	
-	@GetMapping("/transformers")
+	@GetMapping
 	public List<Transformer> findAll() {
 		return transformerService.findAll();
 	}
 	
-	@PostMapping("/transformers")
+	@PostMapping
 	public ResponseEntity<Transformer> add(@RequestBody Transformer transformer) throws TransformerException {
 		if (transformer.getId() == null) {
 			try {
@@ -42,7 +44,7 @@ public class TransformerController {
 		}
 	}
 	
-	@PutMapping("/transformers/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<Transformer> update(@RequestBody Transformer transformer, @PathVariable Integer id) throws TransformerException {
 		Transformer existTransformer = transformerService.get(id);
 		if (existTransformer != null) {
@@ -66,7 +68,7 @@ public class TransformerController {
 		}
 	}
 	
-	@DeleteMapping("/transformers/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Transformer> delete(@PathVariable Integer id) throws TransformerException {
 		Transformer existTransformer = transformerService.get(id);
 		if (existTransformer != null) {

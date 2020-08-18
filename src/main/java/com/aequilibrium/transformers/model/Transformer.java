@@ -157,4 +157,11 @@ public class Transformer {
 		this.skill = skill;
 	}
 
+	@Override
+	public String toString() {
+		return "Transformer [id=" + id + ", name=" + name + ", transformerType=" + transformerType + ", strength="
+				+ strength + ", intelligence=" + intelligence + ", speed=" + speed + ", endurance=" + endurance
+				+ ", rank=" + rank + ", courage=" + courage + ", firepower=" + firepower + ", skill=" + skill + "]";
+	}
+
 }
