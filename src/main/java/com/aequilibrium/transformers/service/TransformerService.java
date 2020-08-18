@@ -23,7 +23,7 @@ public class TransformerService {
 	}
 	
 	public Transformer get(Integer id) {
-		return transformerRepository.findById(id).get();
+		return transformerRepository.findById(id).orElse(null);
 	}
 	
 	public void delete(Integer id) {
