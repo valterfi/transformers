@@ -27,38 +27,39 @@ public class Transformer {
 	private String name;
 	
 	@Enumerated(EnumType.STRING)
+	//@Column(columnDefinition = "VARCHAR(60) CHECK (TRANSFORMER_TYPE IN ('AUTOBOT', 'DECEPTICON'))")
 	private TransformerType transformerType;
 	
 	@NotNull
-	@Range(min=MIN_VALUE, max=MAX_VALUE)
+	@Range(min=MIN_VALUE, max=MAX_VALUE, message = "strength must be between " + MIN_VALUE +" and " + MAX_VALUE)
 	private Integer strength;
 	
 	@NotNull
-	@Range(min=MIN_VALUE, max=MAX_VALUE)
+	@Range(min=MIN_VALUE, max=MAX_VALUE, message = "intelligence must be between " + MIN_VALUE +" and " + MAX_VALUE)
 	private Integer intelligence;
 	
 	@NotNull
-	@Range(min=MIN_VALUE, max=MAX_VALUE)
+	@Range(min=MIN_VALUE, max=MAX_VALUE, message = "speed must be between " + MIN_VALUE +" and " + MAX_VALUE)
 	private Integer speed;
 	
 	@NotNull
-	@Range(min=MIN_VALUE, max=MAX_VALUE)
+	@Range(min=MIN_VALUE, max=MAX_VALUE, message = "endurance must be between " + MIN_VALUE +" and " + MAX_VALUE)
 	private Integer endurance;
 	
 	@NotNull
-	@Range(min=MIN_VALUE, max=MAX_VALUE)
+	@Range(min=MIN_VALUE, max=MAX_VALUE, message = "rank must be between " + MIN_VALUE +" and " + MAX_VALUE)
 	private Integer rank;
 	
 	@NotNull 
-	@Range(min=MIN_VALUE, max=MAX_VALUE)
+	@Range(min=MIN_VALUE, max=MAX_VALUE, message = "courage must be between " + MIN_VALUE +" and " + MAX_VALUE)
 	private Integer courage;
 	
 	@NotNull 
-	@Range(min=MIN_VALUE, max=MAX_VALUE)
+	@Range(min=MIN_VALUE, max=MAX_VALUE, message = "firepower must be between " + MIN_VALUE +" and " + MAX_VALUE)
 	private Integer firepower;
 	
 	@NotNull 
-	@Range(min=MIN_VALUE, max=MAX_VALUE)
+	@Range(min=MIN_VALUE, max=MAX_VALUE, message = "skill must be between " + MIN_VALUE +" and " + MAX_VALUE)
 	private Integer skill;
 	
 	public Transformer() {
