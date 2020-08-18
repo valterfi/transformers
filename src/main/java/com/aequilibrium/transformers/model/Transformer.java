@@ -1,27 +1,45 @@
 package com.aequilibrium.transformers.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Transformer {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
 	
 	private String name;
 	
-	private int strength;
+	private Integer strength;
 	
-	private int intelligence;
+	private Integer intelligence;
 	
-	private int speed;
+	private Integer speed;
 	
-	private int endurance;
+	private Integer endurance;
 	
-	private int rank;
+	private Integer rank;
 	
-	private int courage;
+	private Integer courage;
 	
-	private int firepower;
+	private Integer firepower;
 	
-	private int skill;
+	private Integer skill;
 	
 	public Transformer() {
 		
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -32,67 +50,67 @@ public class Transformer {
 		this.name = name;
 	}
 
-	public int getStrength() {
+	public Integer getStrength() {
 		return strength;
 	}
 
-	public void setStrength(int strength) {
+	public void setStrength(Integer strength) {
 		this.strength = strength;
 	}
 
-	public int getIntelligence() {
+	public Integer getIntelligence() {
 		return intelligence;
 	}
 
-	public void setIntelligence(int intelligence) {
+	public void setIntelligence(Integer intelligence) {
 		this.intelligence = intelligence;
 	}
 
-	public int getSpeed() {
+	public Integer getSpeed() {
 		return speed;
 	}
 
-	public void setSpeed(int speed) {
+	public void setSpeed(Integer speed) {
 		this.speed = speed;
 	}
 
-	public int getEndurance() {
+	public Integer getEndurance() {
 		return endurance;
 	}
 
-	public void setEndurance(int endurance) {
+	public void setEndurance(Integer endurance) {
 		this.endurance = endurance;
 	}
 
-	public int getRank() {
+	public Integer getRank() {
 		return rank;
 	}
 
-	public void setRank(int rank) {
+	public void setRank(Integer rank) {
 		this.rank = rank;
 	}
 
-	public int getCourage() {
+	public Integer getCourage() {
 		return courage;
 	}
 
-	public void setCourage(int courage) {
+	public void setCourage(Integer courage) {
 		this.courage = courage;
 	}
 
-	public int getFirepower() {
+	public Integer getFirepower() {
 		return firepower;
 	}
 
-	public void setFirepower(int firepower) {
+	public void setFirepower(Integer firepower) {
 		this.firepower = firepower;
 	}
 
-	public int getSkill() {
+	public Integer getSkill() {
 		return skill;
 	}
 
-	public void setSkill(int skill) {
+	public void setSkill(Integer skill) {
 		this.skill = skill;
 	}
 
