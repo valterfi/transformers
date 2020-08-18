@@ -1,37 +1,72 @@
 package com.aequilibrium.transformers.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Range;
+
+import com.aequilibrium.transformers.enums.TransformerType;
 
 @Entity
 public class Transformer {
+	
+	private static final int MIN_VALUE = 1;
+
+	private static final int MAX_VALUE = 10;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
+	@NotNull
 	private String name;
 	
+	@Enumerated(EnumType.STRING)
+	private TransformerType transformerType;
+	
+	@NotNull
+	@Range(min=MIN_VALUE, max=MAX_VALUE)
 	private Integer strength;
 	
+	@NotNull
+	@Range(min=MIN_VALUE, max=MAX_VALUE)
 	private Integer intelligence;
 	
+	@NotNull
+	@Range(min=MIN_VALUE, max=MAX_VALUE)
 	private Integer speed;
 	
+	@NotNull
+	@Range(min=MIN_VALUE, max=MAX_VALUE)
 	private Integer endurance;
 	
+	@NotNull
+	@Range(min=MIN_VALUE, max=MAX_VALUE)
 	private Integer rank;
 	
+	@NotNull 
+	@Range(min=MIN_VALUE, max=MAX_VALUE)
 	private Integer courage;
 	
+	@NotNull 
+	@Range(min=MIN_VALUE, max=MAX_VALUE)
 	private Integer firepower;
 	
+	@NotNull 
+	@Range(min=MIN_VALUE, max=MAX_VALUE)
 	private Integer skill;
 	
 	public Transformer() {
 		
+	}
+	
+	public int overallRating() {
+		return this.strength + this.intelligence + this.speed + this.endurance + this.firepower;
 	}
 
 	public Integer getId() {
@@ -48,6 +83,14 @@ public class Transformer {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public TransformerType getTransformerType() {
+		return transformerType;
+	}
+
+	public void setTransformerType(TransformerType transformerType) {
+		this.transformerType = transformerType;
 	}
 
 	public Integer getStrength() {
