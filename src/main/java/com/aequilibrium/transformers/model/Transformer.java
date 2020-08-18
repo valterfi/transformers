@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.Range;
 import com.aequilibrium.transformers.enums.TransformerType;
 
 @Entity
-public class Transformer {
+public class Transformer implements Comparable<Transformer> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -228,6 +228,16 @@ public class Transformer {
 		return "Transformer [id=" + id + ", name=" + name + ", transformerType=" + transformerType + ", strength="
 				+ strength + ", intelligence=" + intelligence + ", speed=" + speed + ", endurance=" + endurance
 				+ ", rank=" + rank + ", courage=" + courage + ", firepower=" + firepower + ", skill=" + skill + "]";
+	}
+
+	@Override
+	public int compareTo(Transformer transformer) {
+		if (this.getRank() < transformer.getRank()) {
+			return 1;
+		} else if (this.getRank() > transformer.getRank()) {
+			return -1;
+		}
+		return 0;
 	}
 
 }

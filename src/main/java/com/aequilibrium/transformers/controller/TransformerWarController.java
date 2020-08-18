@@ -18,7 +18,7 @@ public class TransformerWarController {
 	private TransformerWarService transformerWarService;
 	
 	@PostMapping
-	public void execute(@RequestBody List<Integer> ids) {
+	public void execute(@RequestBody List<Long> ids) {
 		transformerWarService.run(ids);
 	}
 
