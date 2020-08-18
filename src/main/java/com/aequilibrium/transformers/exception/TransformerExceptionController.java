@@ -17,29 +17,29 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class TransformerExceptionController {
 	
 	@ExceptionHandler(value = Exception.class)
-	public ResponseEntity<ErrorResponse> exception(Exception exception) {
-		ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
-	    return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+	public ResponseEntity<TransformerExceptionResponse> exception(Exception exception) {
+		TransformerExceptionResponse errorResponse = new TransformerExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+	    return new ResponseEntity<TransformerExceptionResponse>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@ExceptionHandler(value = HttpMessageNotReadableException.class)
-	public ResponseEntity<ErrorResponse> payloadException(Exception exception) {
-		ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "Incorrect request");
-	    return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+	public ResponseEntity<TransformerExceptionResponse> payloadException(Exception exception) {
+		TransformerExceptionResponse errorResponse = new TransformerExceptionResponse(HttpStatus.BAD_REQUEST, "Incorrect request");
+	    return new ResponseEntity<TransformerExceptionResponse>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 	
 	@ExceptionHandler(value = TransformerException.class)
-	public ResponseEntity<ErrorResponse> transformerException(TransformerException transformerException) {
+	public ResponseEntity<TransformerExceptionResponse> transformerException(TransformerException transformerException) {
 		Throwable rootCause = ExceptionUtils.getRootCause(transformerException);
 		if (rootCause instanceof ConstraintViolationException) {
 			ConstraintViolationException constraintViolationException = (ConstraintViolationException) rootCause;
 			Set<ConstraintViolation<?>> violations = constraintViolationException.getConstraintViolations();
 			String message = violations.stream().map(v -> v.getMessage()).collect(Collectors.joining(", "));
-			ErrorResponse errorResponse = new ErrorResponse(transformerException.getStatus(), message);
-		    return new ResponseEntity<ErrorResponse>(errorResponse, transformerException.getStatus());
+			TransformerExceptionResponse errorResponse = new TransformerExceptionResponse(transformerException.getStatus(), message);
+		    return new ResponseEntity<TransformerExceptionResponse>(errorResponse, transformerException.getStatus());
 		}
-		ErrorResponse errorResponse = new ErrorResponse(transformerException.getStatus(), transformerException.getMessage());
-	    return new ResponseEntity<ErrorResponse>(errorResponse, transformerException.getStatus());
+		TransformerExceptionResponse errorResponse = new TransformerExceptionResponse(transformerException.getStatus(), transformerException.getMessage());
+	    return new ResponseEntity<TransformerExceptionResponse>(errorResponse, transformerException.getStatus());
 	}
 
 }

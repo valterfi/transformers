@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class ErrorResponse {
+public class TransformerExceptionResponse {
 	
 	private int status;
 	
@@ -17,7 +17,7 @@ public class ErrorResponse {
 	
 	private String message;
 
-	public ErrorResponse(HttpStatus httpStatus, String message) {
+	public TransformerExceptionResponse(HttpStatus httpStatus, String message) {
 		this.status = httpStatus.value();
 		this.error = httpStatus.name();
 		timestamp = LocalDateTime.now();
