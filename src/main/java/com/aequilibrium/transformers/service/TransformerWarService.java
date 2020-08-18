@@ -17,6 +17,15 @@ public class TransformerWarService {
 	@Autowired
 	private TransformerService transformerService;
 	
+	private final Comparator<Transformer> RANK_COMPARATOR = (tranformer1, transformer2) -> {
+		if (tranformer1.getRank() < transformer2.getRank()) {
+			return 1;
+		} else if (tranformer1.getRank() > transformer2.getRank()) {
+			return -1;
+		}
+		return 0;
+	};
+	
 	public void execute(List<Integer> ids) {
 		List<Transformer> autobots = new ArrayList<Transformer>();
 		List<Transformer> decepticons = new ArrayList<Transformer>();
@@ -31,17 +40,8 @@ public class TransformerWarService {
 			}
 		}
 		
-		Comparator<Transformer> rankComparator = (tranformer1, transformer2) -> {
-			if (tranformer1.getRank() < transformer2.getRank()) {
-				return 1;
-			} else if (tranformer1.getRank() > transformer2.getRank()) {
-				return -1;
-			}
-			return 0;
-		};
-		
-		Collections.sort(autobots, rankComparator);
-		Collections.sort(decepticons, rankComparator);
+		Collections.sort(autobots, RANK_COMPARATOR);
+		Collections.sort(decepticons, RANK_COMPARATOR);
 		
 		System.out.println(autobots);
 		System.out.println(decepticons);
