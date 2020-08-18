@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aequilibrium.transformers.exception.TransformerException;
 import com.aequilibrium.transformers.model.Transformer;
 import com.aequilibrium.transformers.service.TransformerService;
-import com.aequilibrium.transformers.util.TransformerUtil;
 
 @RestController
 @RequestMapping("/api/transformers")
@@ -87,10 +86,9 @@ public class TransformerController {
 	}
 	
 	@PostMapping("/random/{fightersNumber}")
-	public ResponseEntity<Transformer> generateRandom(@PathVariable Integer fightersNumber) throws TransformerException {
+	public ResponseEntity<Transformer> generateRandom(@PathVariable Long fightersNumber) throws TransformerException {
 		try {
-			List<Transformer> transformers = TransformerUtil.random(fightersNumber);
-			transformers.stream().forEach(transformer -> transformerService.save(transformer));
+			transformerService.generateRandom(fightersNumber);
 			return new ResponseEntity<Transformer>(HttpStatus.OK);
 		} catch (Exception e) {
 			throw new TransformerException(HttpStatus.INTERNAL_SERVER_ERROR, e);

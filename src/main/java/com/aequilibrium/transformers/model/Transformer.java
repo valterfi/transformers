@@ -20,7 +20,7 @@ public class Transformer {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	private Long id;
 	
 	@NotNull(message = "name must not be null")
 	private String name;
@@ -135,11 +135,11 @@ public class Transformer {
 		return this.strength + this.intelligence + this.speed + this.endurance + this.firepower;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
