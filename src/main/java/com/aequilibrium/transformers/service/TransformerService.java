@@ -29,5 +29,9 @@ public class TransformerService {
 	public void delete(Integer id) {
 		transformerRepository.deleteById(id);
 	}
+	
+	public void deleteAll() {
+		transformerRepository.deleteAll();
+	}
 
 }

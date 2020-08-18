@@ -1,5 +1,8 @@
 package com.aequilibrium.transformers.model;
 
+import static com.aequilibrium.transformers.util.Constants.MAX_SPEC_VALUE;
+import static com.aequilibrium.transformers.util.Constants.MIN_SPEC_VALUE;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -15,10 +18,6 @@ import com.aequilibrium.transformers.enums.TransformerType;
 @Entity
 public class Transformer {
 	
-	private static final int MIN_VALUE = 1;
-
-	private static final int MAX_VALUE = 10;
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
@@ -30,39 +29,106 @@ public class Transformer {
 	private TransformerType transformerType;
 	
 	@NotNull(message = "strength must not be null")
-	@Range(min=MIN_VALUE, max=MAX_VALUE, message = "strength must be between " + MIN_VALUE +" and " + MAX_VALUE)
+	@Range(min=MIN_SPEC_VALUE, max=MAX_SPEC_VALUE, message = "strength must be between " + MIN_SPEC_VALUE +" and " + MAX_SPEC_VALUE)
 	private Integer strength;
 	
 	@NotNull(message = "intelligence must not be null")
-	@Range(min=MIN_VALUE, max=MAX_VALUE, message = "intelligence must be between " + MIN_VALUE +" and " + MAX_VALUE)
+	@Range(min=MIN_SPEC_VALUE, max=MAX_SPEC_VALUE, message = "intelligence must be between " + MIN_SPEC_VALUE +" and " + MAX_SPEC_VALUE)
 	private Integer intelligence;
 	
 	@NotNull(message = "speed must not be null")
-	@Range(min=MIN_VALUE, max=MAX_VALUE, message = "speed must be between " + MIN_VALUE +" and " + MAX_VALUE)
+	@Range(min=MIN_SPEC_VALUE, max=MAX_SPEC_VALUE, message = "speed must be between " + MIN_SPEC_VALUE +" and " + MAX_SPEC_VALUE)
 	private Integer speed;
 	
 	@NotNull(message = "endurance must not be null")
-	@Range(min=MIN_VALUE, max=MAX_VALUE, message = "endurance must be between " + MIN_VALUE +" and " + MAX_VALUE)
+	@Range(min=MIN_SPEC_VALUE, max=MAX_SPEC_VALUE, message = "endurance must be between " + MIN_SPEC_VALUE +" and " + MAX_SPEC_VALUE)
 	private Integer endurance;
 	
 	@NotNull(message = "rank must not be null")
-	@Range(min=MIN_VALUE, max=MAX_VALUE, message = "rank must be between " + MIN_VALUE +" and " + MAX_VALUE)
+	@Range(min=MIN_SPEC_VALUE, max=MAX_SPEC_VALUE, message = "rank must be between " + MIN_SPEC_VALUE +" and " + MAX_SPEC_VALUE)
 	private Integer rank;
 	
 	@NotNull(message = "courage must not be null")
-	@Range(min=MIN_VALUE, max=MAX_VALUE, message = "courage must be between " + MIN_VALUE +" and " + MAX_VALUE)
+	@Range(min=MIN_SPEC_VALUE, max=MAX_SPEC_VALUE, message = "courage must be between " + MIN_SPEC_VALUE +" and " + MAX_SPEC_VALUE)
 	private Integer courage;
 	
 	@NotNull(message = "firepower must not be null")
-	@Range(min=MIN_VALUE, max=MAX_VALUE, message = "firepower must be between " + MIN_VALUE +" and " + MAX_VALUE)
+	@Range(min=MIN_SPEC_VALUE, max=MAX_SPEC_VALUE, message = "firepower must be between " + MIN_SPEC_VALUE +" and " + MAX_SPEC_VALUE)
 	private Integer firepower;
 	
 	@NotNull(message = "skill must not be null") 
-	@Range(min=MIN_VALUE, max=MAX_VALUE, message = "skill must be between " + MIN_VALUE +" and " + MAX_VALUE)
+	@Range(min=MIN_SPEC_VALUE, max=MAX_SPEC_VALUE, message = "skill must be between " + MIN_SPEC_VALUE +" and " + MAX_SPEC_VALUE)
 	private Integer skill;
 	
 	public Transformer() {
 		
+	}
+	
+	public static Transformer builder() {
+		return new Transformer();
+	}
+	
+	public Transformer withTransformerType(TransformerType transformerType) {
+		this.setTransformerType(transformerType);  
+		return this;
+	}
+	
+	public Transformer withName(String name) {
+		this.setName(name);
+		return this;
+	}
+	
+	public Transformer withStrength(int strength) {
+		this.setStrength(strength);
+		return this;
+	}
+	
+	public Transformer withIntelligence(int intelligence) {
+		this.setIntelligence(intelligence);
+		return this;
+	}
+	
+	public Transformer withSpeed(int speed) {
+		this.setSpeed(speed);
+		return this;
+	}
+	
+	public Transformer withEndurance(int endurance) {
+		this.setEndurance(endurance);
+		return this;
+	}
+	
+	public Transformer withRank(int rank) {
+		this.setRank(rank);
+		return this;
+	}
+	
+	public Transformer withCourage(int courage) {
+		this.setCourage(courage);
+		return this;
+	}
+	
+	public Transformer withFirepower(int firepower) {
+		this.setFirepower(firepower);
+		return this;
+	}
+	
+	public Transformer withSkill(int skill) {
+		this.setSkill(skill);
+		return this;
+	}
+	
+	public Transformer mapTo(Transformer transformer) {
+		this.setName(transformer.getName());
+		this.setStrength(transformer.getStrength());
+		this.setIntelligence(transformer.getIntelligence());
+		this.setSpeed(transformer.getSpeed());
+		this.setEndurance(transformer.getEndurance());
+		this.setRank(transformer.getRank());
+		this.setCourage(transformer.getCourage());
+		this.setFirepower(transformer.getFirepower());
+		this.setSkill(transformer.getSkill());
+		return this;
 	}
 	
 	public int overallRating() {

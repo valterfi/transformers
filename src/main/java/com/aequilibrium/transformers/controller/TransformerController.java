@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aequilibrium.transformers.exception.TransformerException;
 import com.aequilibrium.transformers.model.Transformer;
 import com.aequilibrium.transformers.service.TransformerService;
+import com.aequilibrium.transformers.util.TransformerUtil;
 
 @RestController
 @RequestMapping("/api/transformers")
@@ -48,15 +49,7 @@ public class TransformerController {
 	public ResponseEntity<Transformer> update(@RequestBody Transformer transformer, @PathVariable Integer id) throws TransformerException {
 		Transformer existTransformer = transformerService.get(id);
 		if (existTransformer != null) {
-			existTransformer.setName(transformer.getName());
-			existTransformer.setStrength(transformer.getStrength());
-			existTransformer.setIntelligence(transformer.getIntelligence());
-			existTransformer.setSpeed(transformer.getSpeed());
-			existTransformer.setEndurance(transformer.getEndurance());
-			existTransformer.setRank(transformer.getRank());
-			existTransformer.setCourage(transformer.getCourage());
-			existTransformer.setFirepower(transformer.getFirepower());
-			existTransformer.setSkill(transformer.getSkill());
+			existTransformer.mapTo(transformer);
 			try {
 				transformerService.save(existTransformer);
 				return new ResponseEntity<Transformer>(HttpStatus.OK);
@@ -72,10 +65,35 @@ public class TransformerController {
 	public ResponseEntity<Transformer> delete(@PathVariable Integer id) throws TransformerException {
 		Transformer existTransformer = transformerService.get(id);
 		if (existTransformer != null) {
-			transformerService.delete(id);
-			return new ResponseEntity<Transformer>(HttpStatus.OK);
+			try {
+				transformerService.delete(id);
+				return new ResponseEntity<Transformer>(HttpStatus.OK);
+			} catch (Exception e) {
+				throw new TransformerException(HttpStatus.INTERNAL_SERVER_ERROR, e);
+			}
 		} else { 
 			throw new TransformerException(HttpStatus.NOT_FOUND, "Transformer not found");
+		}
+	}
+	
+	@DeleteMapping("/deleteAll")
+	public ResponseEntity<Transformer> deleteAll() throws TransformerException {
+		try {
+			transformerService.deleteAll();
+			return new ResponseEntity<Transformer>(HttpStatus.OK);
+		} catch (Exception e) {
+			throw new TransformerException(HttpStatus.INTERNAL_SERVER_ERROR, e);
+		}
+	}
+	
+	@PostMapping("/random/{fightersNumber}")
+	public ResponseEntity<Transformer> generateRandom(@PathVariable Integer fightersNumber) throws TransformerException {
+		try {
+			List<Transformer> transformers = TransformerUtil.random(fightersNumber);
+			transformers.stream().forEach(transformer -> transformerService.save(transformer));
+			return new ResponseEntity<Transformer>(HttpStatus.OK);
+		} catch (Exception e) {
+			throw new TransformerException(HttpStatus.INTERNAL_SERVER_ERROR, e);
 		}
 	}
 
