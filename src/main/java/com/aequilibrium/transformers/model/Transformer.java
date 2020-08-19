@@ -21,6 +21,10 @@ import org.hibernate.validator.constraints.Range;
 import com.aequilibrium.transformers.enums.TransformerType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * @author valterfi
+ *
+ */
 @Entity
 public class Transformer implements Comparable<Transformer> {
 	

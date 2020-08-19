@@ -5,6 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * @author valterfi
+ *
+ */
 public enum TransformerType {
 
 	AUTOBOT, DECEPTICON;

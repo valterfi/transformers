@@ -1,5 +1,9 @@
 package com.aequilibrium.transformers.util;
 
+/**
+ * @author valterfi
+ *
+ */
 public class Constants {
 	
 	public static final int MIN_SPEC_VALUE = 1;

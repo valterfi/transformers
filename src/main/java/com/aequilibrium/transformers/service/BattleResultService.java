@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import com.aequilibrium.transformers.model.BattleResult;
 import com.aequilibrium.transformers.repository.BattleResultRepository;
 
+/**
+ * @author valterfi
+ *
+ */
 @Service
 public class BattleResultService {
 	

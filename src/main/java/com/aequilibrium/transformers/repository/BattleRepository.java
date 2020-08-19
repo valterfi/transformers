@@ -9,6 +9,10 @@ import org.springframework.stereotype.Repository;
 import com.aequilibrium.transformers.enums.BattleStatus;
 import com.aequilibrium.transformers.model.Battle;
 
+/**
+ * @author valterfi
+ *
+ */
 @Repository
 public interface BattleRepository extends CrudRepository<Battle, Long> {
 	

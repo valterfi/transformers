@@ -21,6 +21,10 @@ import com.aequilibrium.transformers.model.Transformer;
 import com.aequilibrium.transformers.util.BattleResultUtil;
 import com.google.common.collect.Lists;
 
+/**
+ * @author valterfi
+ *
+ */
 @Service
 public class TransformerWarService {
 	

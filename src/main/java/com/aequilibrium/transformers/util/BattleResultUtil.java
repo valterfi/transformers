@@ -3,6 +3,10 @@ package com.aequilibrium.transformers.util;
 import com.aequilibrium.transformers.dto.BattleDetailDTO;
 import com.aequilibrium.transformers.model.BattleResult;
 
+/**
+ * @author valterfi
+ *
+ */
 public class BattleResultUtil {
 	
 	private BattleResultUtil() {

@@ -3,6 +3,10 @@ package com.aequilibrium.transformers.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author valterfi
+ *
+ */
 public class BattleSummaryDTO {
 	
 	private Integer battlesNumber = 0;

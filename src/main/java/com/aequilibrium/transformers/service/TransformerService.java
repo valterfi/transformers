@@ -18,6 +18,10 @@ import com.aequilibrium.transformers.model.Transformer;
 import com.aequilibrium.transformers.repository.TransformerRepository;
 import com.aequilibrium.transformers.util.TransformerUtil;
 
+/**
+ * @author valterfi
+ *
+ */
 @Service
 public class TransformerService {
 	

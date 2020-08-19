@@ -16,6 +16,10 @@ import javax.persistence.OneToMany;
 import com.aequilibrium.transformers.enums.BattleStatus;
 import com.aequilibrium.transformers.enums.TransformerType;
 
+/**
+ * @author valterfi
+ *
+ */
 @Entity
 public class Battle {
 	

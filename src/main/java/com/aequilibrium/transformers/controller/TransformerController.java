@@ -19,6 +19,10 @@ import com.aequilibrium.transformers.exception.TransformerException;
 import com.aequilibrium.transformers.model.Transformer;
 import com.aequilibrium.transformers.service.TransformerService;
 
+/**
+ * @author valterfi
+ *
+ */
 @RestController
 @RequestMapping("/api/transformers")
 public class TransformerController {

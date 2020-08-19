@@ -13,6 +13,10 @@ import com.aequilibrium.transformers.model.BattleResult;
 import com.aequilibrium.transformers.model.Transformer;
 import com.aequilibrium.transformers.repository.BattleRepository;
 
+/**
+ * @author valterfi
+ *
+ */
 @Service
 public class BattleService {
 	

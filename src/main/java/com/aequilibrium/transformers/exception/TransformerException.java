@@ -2,6 +2,10 @@ package com.aequilibrium.transformers.exception;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * @author valterfi
+ *
+ */
 public class TransformerException extends Exception {
 	
 	private HttpStatus status;

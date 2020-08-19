@@ -6,6 +6,10 @@ import static com.aequilibrium.transformers.util.Constants.MIN_SPEC_VALUE;
 import com.aequilibrium.transformers.enums.TransformerType;
 import com.aequilibrium.transformers.model.Transformer;
 
+/**
+ * @author valterfi
+ *
+ */
 public class TransformerUtil {
 	
 	private TransformerUtil() {

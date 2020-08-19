@@ -6,6 +6,10 @@ import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+/**
+ * @author valterfi
+ *
+ */
 public class TransformerExceptionResponse {
 	
 	private int status;

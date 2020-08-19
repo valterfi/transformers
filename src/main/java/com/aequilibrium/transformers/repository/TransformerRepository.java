@@ -8,6 +8,10 @@ import org.springframework.stereotype.Repository;
 import com.aequilibrium.transformers.enums.TransformerType;
 import com.aequilibrium.transformers.model.Transformer;
 
+/**
+ * @author valterfi
+ *
+ */
 @Repository
 public interface TransformerRepository extends PagingAndSortingRepository<Transformer, Long> {
 	

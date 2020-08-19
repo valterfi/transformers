@@ -2,6 +2,10 @@ package com.aequilibrium.transformers.dto;
 
 import com.aequilibrium.transformers.model.Transformer;
 
+/**
+ * @author valterfi
+ *
+ */
 public class BattleDetailDTO {
 	
 	private Integer battleOrder;

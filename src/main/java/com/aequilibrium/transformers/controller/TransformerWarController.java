@@ -14,6 +14,10 @@ import com.aequilibrium.transformers.dto.BattleSummaryDTO;
 import com.aequilibrium.transformers.exception.TransformerException;
 import com.aequilibrium.transformers.service.TransformerWarService;
 
+/**
+ * @author valterfi
+ *
+ */
 @RestController
 @RequestMapping("/api/transformers/war")
 public class TransformerWarController {
