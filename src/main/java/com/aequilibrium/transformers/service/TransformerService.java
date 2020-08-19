@@ -3,7 +3,7 @@ package com.aequilibrium.transformers.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.LongStream;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.aequilibrium.transformers.enums.TransformerType;
 import com.aequilibrium.transformers.model.Transformer;
 import com.aequilibrium.transformers.repository.TransformerRepository;
 import com.aequilibrium.transformers.util.TransformerUtil;
@@ -38,6 +39,10 @@ public class TransformerService {
         }
 	}
 	
+	public List<Transformer> findByIds(TransformerType transformerType, List<Long> ids) {
+		return transformerRepository.findByTransformerTypeAndIdIn(transformerType, ids);
+	}
+	
 	public Transformer save(Transformer transformer) {
 		return transformerRepository.save(transformer);
 	}
@@ -55,8 +60,8 @@ public class TransformerService {
 	}
 	
 	@Async
-	public CompletableFuture<List<Transformer>> generateRandom(Long fightersNumber) throws InterruptedException {
-		LongStream.rangeClosed(1, fightersNumber)
+	public CompletableFuture<List<Transformer>> generateRandom(Integer fightersNumber) throws InterruptedException {
+		IntStream.rangeClosed(1, fightersNumber)
 		  .forEach(index -> {
 			  Transformer transformer = TransformerUtil.random(index, fightersNumber);
 			  transformer = transformerRepository.save(transformer);

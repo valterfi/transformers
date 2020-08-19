@@ -3,19 +3,42 @@ package com.aequilibrium.transformers.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aequilibrium.transformers.enums.BattleStatus;
 import com.aequilibrium.transformers.function.RuleFunction;
+import com.aequilibrium.transformers.model.Battle;
+import com.aequilibrium.transformers.model.BattleResult;
 import com.aequilibrium.transformers.model.Transformer;
-import com.aequilibrium.transformers.vo.BattleResult;
+import com.aequilibrium.transformers.repository.BattleRepository;
 
 @Service
 public class BattleService {
+	
+	@Autowired
+	private BattleRepository battleRepository;
 
 	private List<RuleFunction> rules = new ArrayList<RuleFunction>();
 	
 	public BattleService() {
 		basicRulesFactory();
+	}
+	
+	public Battle save(Battle battle) {
+		return battleRepository.save(battle);
+	}
+	
+	public void archiveBattles() {
+		List<Battle> battles = battleRepository.findByBattleStatusNot(BattleStatus.ARCHIVED);
+		for (Battle battle : battles) {
+			battle.setBattleStatus(BattleStatus.ARCHIVED);
+			battleRepository.save(battle);
+		}
+	}
+	
+	public List<Battle> findByBattleStatus(BattleStatus battleStatus) {
+		return battleRepository.findByBattleStatus(battleStatus);
 	}
 	
 	private void basicRulesFactory() {
@@ -33,7 +56,7 @@ public class BattleService {
 	private RuleFunction createRule1() {
 		return (transformer1, transformer2) -> {
 			
-			BattleResult result = null;
+			BattleResult battleResult = null;
 
 			int courage1 = transformer1.getCourage();
 			int courage2 = transformer2.getCourage();
@@ -43,15 +66,15 @@ public class BattleService {
 
 			if ((courage1 - courage2) >= 4 && (strength1 - strength2) >= 3) {
 				System.out.println("[RULE1] applied");
-				result = BattleResult.builder().withWinner(transformer1).withLoser(transformer2);
+				battleResult = BattleResult.builder().withWinner(transformer1).withLoser(transformer2);
 			}
 
 			if ((courage2 - courage1) >= 4 && (strength2 - strength1) >= 3) {
 				System.out.println("[RULE1] applied");
-				result = BattleResult.builder().withWinner(transformer2).withLoser(transformer1);
+				battleResult = BattleResult.builder().withWinner(transformer2).withLoser(transformer1);
 			}
 
-			return result;
+			return battleResult;
 		};
 
 	}
@@ -63,22 +86,22 @@ public class BattleService {
 	private RuleFunction createRule2() {
 		return (transformer1, transformer2) -> {
 			
-			BattleResult result = null;
+			BattleResult battleResult = null;
 
 			int skill1 = transformer1.getSkill();
 			int skill2 = transformer2.getSkill();
 
 			if (skill1 - skill2 >= 3) {
 				System.out.println("[RULE2] applied");
-				result = BattleResult.builder().withWinner(transformer1).withLoser(transformer2);
+				battleResult = BattleResult.builder().withWinner(transformer1).withLoser(transformer2);
 			}
 
 			if (skill2 - skill1 >= 3) {
 				System.out.println("[RULE2] applied");
-				result = BattleResult.builder().withWinner(transformer2).withLoser(transformer1);
+				battleResult = BattleResult.builder().withWinner(transformer2).withLoser(transformer1);
 			}
 
-			return result;
+			return battleResult;
 		};
 	}
 
@@ -89,32 +112,32 @@ public class BattleService {
 	private RuleFunction createSpecialRule1() {
 		return (transformer1, transformer2) -> {
 			
-			BattleResult result = null;
+			BattleResult battleResult = null;
 
 			String name1 = transformer1.getName().trim();
 			String name2 = transformer2.getName().trim();
 
 			if (name1.equalsIgnoreCase("Optimus Prime") && name2.equalsIgnoreCase("Optimus Prime")) {
 				System.out.println("[SPECIAL RULE1] applied");
-				result = BattleResult.builder().shouldDestroyAll();
+				battleResult = BattleResult.builder().shouldDestroyAll();
 			}
 
 			if (name1.equalsIgnoreCase("Predaking") && name2.equalsIgnoreCase("Predaking")) {
 				System.out.println("[SPECIAL RULE1] applied");
-				result = BattleResult.builder().shouldDestroyAll();
+				battleResult = BattleResult.builder().shouldDestroyAll();
 			}
 			
 			if (name1.equalsIgnoreCase("Optimus Prime") && name2.equalsIgnoreCase("Predaking")) {
 				System.out.println("[SPECIAL RULE1] applied");
-				result = BattleResult.builder().shouldDestroyAll();
+				battleResult = BattleResult.builder().shouldDestroyAll();
 			}
 			
 			if (name1.equalsIgnoreCase("Predaking") && name2.equalsIgnoreCase("Optimus Prime")) {
 				System.out.println("[SPECIAL RULE1] applied");
-				result = BattleResult.builder().shouldDestroyAll();
+				battleResult = BattleResult.builder().shouldDestroyAll();
 			}
 
-			return result;
+			return battleResult;
 		};
 	}
 
@@ -125,22 +148,22 @@ public class BattleService {
 	private RuleFunction createSpecialRule2() {
 		return (transformer1, transformer2) -> {
 			
-			BattleResult result = null;
+			BattleResult battleResult = null;
 
 			String name1 = transformer1.getName().trim();
 			String name2 = transformer2.getName().trim();
 
 			if (name1.equalsIgnoreCase("Optimus Prime") || name1.equalsIgnoreCase("Predaking")) {
 				System.out.println("[SPECIAL RULE2] applied");
-				result = BattleResult.builder().withWinner(transformer1).withLoser(transformer2);
+				battleResult = BattleResult.builder().withWinner(transformer1).withLoser(transformer2);
 			}
 
 			if (name2.equalsIgnoreCase("Optimus Prime") || name2.equalsIgnoreCase("Predaking")) {
 				System.out.println("[SPECIAL RULE2] applied");
-				result = BattleResult.builder().withWinner(transformer2).withLoser(transformer1);
+				battleResult = BattleResult.builder().withWinner(transformer2).withLoser(transformer1);
 			}
 
-			return result;
+			return battleResult;
 		};
 	}
 
@@ -151,32 +174,32 @@ public class BattleService {
 	 * @param transformer2
 	 * @return The winner is the Transformer with the highest overall rating
 	 */
-	public BattleResult run(Transformer transformer1, Transformer transformer2) {
+	public BattleResult run(Integer battleOrder, Battle battle, Transformer transformer1, Transformer transformer2) {
 		System.out.println(transformer1);
 		System.out.println(transformer2);
 		
-		BattleResult result = null;
+		BattleResult battleResult = null;
 
 		for (RuleFunction ruleFunction : this.rules) {
-			result = ruleFunction.check(transformer1, transformer2);
-			if (result != null) {
-				return result;
+			battleResult = ruleFunction.check(transformer1, transformer2);
+			if (battleResult != null) {
+				return battleResult.withBattleOrder(battleOrder).withBattle(battle);
 			}
 		}
 
 		int overallRating1 = transformer1.overallRating();
 		int overallRating2 = transformer2.overallRating();
+		
+		battleResult = BattleResult.builder().withBattleOrder(battleOrder).withBattle(battle);
 
 		if (overallRating1 > overallRating2) {
-			result = BattleResult.builder().withWinner(transformer1).withLoser(transformer2);
+			battleResult = battleResult.withWinner(transformer1).withLoser(transformer2);
 		} else if (overallRating1 < overallRating2) {
-			result = BattleResult.builder().withWinner(transformer2).withLoser(transformer1);
-		} else {
-			result = BattleResult.builder();
+			battleResult = battleResult.withWinner(transformer2).withLoser(transformer1);
 		}
 		
 		System.out.println("[DEFAULT RULE] applied");
-		return result;
+		return battleResult;
 
 	}
 	

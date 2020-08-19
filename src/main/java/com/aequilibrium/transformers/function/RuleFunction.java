@@ -1,7 +1,7 @@
 package com.aequilibrium.transformers.function;
 
+import com.aequilibrium.transformers.model.BattleResult;
 import com.aequilibrium.transformers.model.Transformer;
-import com.aequilibrium.transformers.vo.BattleResult;
 
 @FunctionalInterface
 public interface RuleFunction {

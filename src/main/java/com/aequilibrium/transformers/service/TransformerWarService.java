@@ -3,13 +3,19 @@ package com.aequilibrium.transformers.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.aequilibrium.transformers.dto.BattleSummaryDTO;
+import com.aequilibrium.transformers.enums.BattleStatus;
 import com.aequilibrium.transformers.enums.TransformerType;
+import com.aequilibrium.transformers.model.Battle;
+import com.aequilibrium.transformers.model.BattleResult;
 import com.aequilibrium.transformers.model.Transformer;
-import com.aequilibrium.transformers.vo.BattleResult;
+import com.google.common.collect.Lists;
 
 @Service
 public class TransformerWarService {
@@ -20,20 +26,30 @@ public class TransformerWarService {
 	@Autowired
 	private BattleService battleService;
 	
-	public void run(List<Long> ids) {
+	@Autowired 
+	private BattleResultService battleResultService;
+	
+	public boolean existBattleRunning() {
+		List<Battle> battles = battleService.findByBattleStatus(BattleStatus.RUNNING);
+		return !battles.isEmpty();
+	}
+	
+	@Async
+	public CompletableFuture<List<Long>> run(List<Long> ids) {
+		battleService.archiveBattles();
+		
 		List<Transformer> autobots = new ArrayList<Transformer>();
 		List<Transformer> decepticons = new ArrayList<Transformer>();
 		
-		for (Long id : ids) {
-			Transformer transformer = transformerService.get(id);
-			
-			if (transformer != null) {
-				if (transformer.getTransformerType().equals(TransformerType.AUTOBOT)) {
-					autobots.add(transformer);
-				} else {
-					decepticons.add(transformer);
-				}
-			}
+		int size = 1;
+		if (ids.size() > 1000) {
+			size = ids.size() / 1000;
+		}
+		List<List<Long>> splitIds = Lists.partition(ids, size);
+		
+		for (List<Long> subIds: splitIds) {
+	         autobots.addAll(transformerService.findByIds(TransformerType.AUTOBOT, subIds));
+	         decepticons.addAll(transformerService.findByIds(TransformerType.DECEPTICON, subIds));
 		}
 		
 		Collections.sort(autobots);
@@ -41,25 +57,38 @@ public class TransformerWarService {
 		
 		processBattle(autobots, decepticons);
 		
+		return CompletableFuture.completedFuture(new ArrayList<Long>(ids));
+	}
+	
+	public BattleSummaryDTO battleSummary() {
+		return null;
 	}
 
 	private void processBattle(List<Transformer> autobots, List<Transformer> decepticons) {
 		int battleCount = 0;
 		
+		Battle battle = battleService.save(new Battle());
+		
 		List<Transformer> autobotsLosers = new ArrayList<Transformer>();
 		List<Transformer> deceptionsLosers = new ArrayList<Transformer>();
+		List<BattleResult> battleResults = new ArrayList<BattleResult>();
+		
+		battle.setBattleStatus(BattleStatus.RUNNING);
+		battle = battleService.save(battle);
 		
 		for (int i = 0; i < autobots.size() && i < decepticons.size(); i++) {
 			System.out.println("Battle #" + (i+1));
-			BattleResult result = battleService.run(autobots.get(i), decepticons.get(i));
-			if (result.hasWinner()) {
-				if (result.getWinner().getTransformerType().equals(TransformerType.AUTOBOT)) {
-					deceptionsLosers.add(result.getLoser());
+			Integer order = (i+1);
+			BattleResult battleResult = battleService.run(order, battle, autobots.get(i), decepticons.get(i));
+			battleResults.add(battleResult);
+			if (battleResult.hasWinner()) {
+				if (battleResult.getWinner().getTransformerType().equals(TransformerType.AUTOBOT)) {
+					deceptionsLosers.add(battleResult.getLoser());
 				} else {
-					autobotsLosers.add(result.getLoser());
+					autobotsLosers.add(battleResult.getLoser());
 				}
-				System.out.println("The winner is " + result.getWinner());
-			} else if (result.isDestroyAll()) {
+				System.out.println("The winner is " + battleResult.getWinner());
+			} else if (battleResult.isDestroyAll()) {
 				autobotsLosers = new ArrayList<Transformer>(autobots);
 				deceptionsLosers = new ArrayList<Transformer>(decepticons);
 				break;
@@ -68,9 +97,21 @@ public class TransformerWarService {
 				deceptionsLosers.add(decepticons.get(i));
 				System.out.println("No winners");
 			}
+			if (battleCount % 10000 == 0) {
+				battleResultService.saveAll(battleResults);
+				battleResults = new ArrayList<BattleResult>();
+			}
 			battleCount++;
 			System.out.println();
 		}
+		
+		if (!battleResults.isEmpty()) {
+			battleResultService.saveAll(battleResults);
+			battleResults = new ArrayList<BattleResult>();
+		}
+		
+		battle.setBattleStatus(BattleStatus.FINISHED);
+		battle = battleService.save(battle);
 		
 		System.out.println("------------------------");
 		System.out.println("The number of battles: " + battleCount);

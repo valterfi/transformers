@@ -93,7 +93,7 @@ public class TransformerController {
 	}
 	
 	@PostMapping("/random/{fightersNumber}")
-	public ResponseEntity<Transformer> generateRandom(@PathVariable Long fightersNumber) throws TransformerException {
+	public ResponseEntity<Transformer> generateRandom(@PathVariable Integer fightersNumber) throws TransformerException {
 		try {
 			transformerService.generateRandom(fightersNumber);
 			return new ResponseEntity<Transformer>(HttpStatus.OK);

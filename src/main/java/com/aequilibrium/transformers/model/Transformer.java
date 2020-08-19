@@ -3,17 +3,21 @@ package com.aequilibrium.transformers.model;
 import static com.aequilibrium.transformers.util.Constants.MAX_SPEC_VALUE;
 import static com.aequilibrium.transformers.util.Constants.MIN_SPEC_VALUE;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
 
 import com.aequilibrium.transformers.enums.TransformerType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Transformer implements Comparable<Transformer> {
@@ -60,6 +64,14 @@ public class Transformer implements Comparable<Transformer> {
 	@Range(min=MIN_SPEC_VALUE, max=MAX_SPEC_VALUE, message = "skill must be between " + MIN_SPEC_VALUE +" and " + MAX_SPEC_VALUE)
 	private Integer skill;
 	
+	@JsonIgnore
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "winner", cascade = CascadeType.REMOVE)
+	private BattleResult battleResultWinner;
+	
+	@JsonIgnore
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "loser", cascade = CascadeType.REMOVE)
+	private BattleResult battleResultLoser;
+ 	
 	public Transformer() {
 		
 	}

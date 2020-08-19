@@ -3,9 +3,6 @@ package com.aequilibrium.transformers.util;
 import static com.aequilibrium.transformers.util.Constants.MAX_SPEC_VALUE;
 import static com.aequilibrium.transformers.util.Constants.MIN_SPEC_VALUE;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.aequilibrium.transformers.enums.TransformerType;
 import com.aequilibrium.transformers.model.Transformer;
 
@@ -18,8 +15,8 @@ public class TransformerUtil {
 	/**
 	 * Generate random transformer fighter
 	 */
-	public static Transformer random(Long index, Long fightersNumber) {
-			return Transformer.builder().withName("Transformer-" + index)
+	public static Transformer random(Integer index, Integer fightersNumber) {
+			return Transformer.builder().withName("Transformer-[" + index + "]")
 					.withTransformerType(TransformerType.random())
 					.withStrength(getRandomInteger(MIN_SPEC_VALUE, MAX_SPEC_VALUE + 1))
 					.withIntelligence(getRandomInteger(MIN_SPEC_VALUE, MAX_SPEC_VALUE + 1))
