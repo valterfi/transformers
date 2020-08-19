@@ -202,7 +202,7 @@ public class BattleService {
 	 * 
 	 * @param autobot
 	 * @param decepticon
-	 * @return The winner is the Transformer with the highest overall rating
+	 * @return The winner is the Transformer with the highest overall rating if they have not passed the other rules
 	 */
 	public BattleResult run(Integer battleOrder, Battle battle, Transformer autobot, Transformer decepticon) {
 		BattleResult battleResult = null;
