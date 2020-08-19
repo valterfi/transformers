@@ -129,67 +129,76 @@ public class TransformerWarService {
 	}
 
 	private void processBattle(List<Transformer> autobots, List<Transformer> decepticons) {
-		int battleCount = 0;
+		try {
 		
-		Battle battle = new Battle();
-		battle = battleService.save(battle);
-		
-		List<String> winningAutobots = new ArrayList<String>();
-		List<String> winningDecepticons = new ArrayList<String>();
-		
-		List<BattleResult> battleResults = new ArrayList<BattleResult>();
-		
-		battle.setBattleStatus(BattleStatus.RUNNING);
-		battle = battleService.save(battle);
-		
-		for (int i = 0; i < autobots.size() && i < decepticons.size(); i++) {
-			Integer order = (i+1);
-			BattleResult battleResult = battleService.run(order, battle, autobots.get(i), decepticons.get(i));
-			battleResults.add(battleResult);
-			if (battleResult.hasWinner()) {
-				if (battleResult.getWinner().getTransformerType().equals(TransformerType.AUTOBOT)) {
-					winningAutobots.add(battleResult.getWinner().getName());
-					decepticons.remove(battleResult.getLoser());
-				} else {
-					winningDecepticons.add(battleResult.getWinner().getName());
-					autobots.remove(battleResult.getLoser());
+			int battleCount = 0;
+			
+			Battle battle = new Battle();
+			battle = battleService.save(battle);
+			
+			List<String> winningAutobots = new ArrayList<String>();
+			List<String> winningDecepticons = new ArrayList<String>();
+			
+			List<Transformer> survivorsAutobots = new ArrayList<Transformer>(autobots);
+			List<Transformer> survivorsDecepticons = new ArrayList<Transformer>(autobots);
+			
+			List<BattleResult> battleResults = new ArrayList<BattleResult>();
+			
+			battle.setBattleStatus(BattleStatus.RUNNING);
+			battle = battleService.save(battle);
+			
+			for (int i = 0; i < autobots.size() && i < decepticons.size(); i++) {
+				Integer order = (i+1);
+				BattleResult battleResult = battleService.run(order, battle, autobots.get(i), decepticons.get(i));
+				battleResults.add(battleResult);
+				if (battleResult.hasWinner()) {
+					if (battleResult.getWinner().getTransformerType().equals(TransformerType.AUTOBOT)) {
+						winningAutobots.add(battleResult.getWinner().getName());
+						survivorsDecepticons.remove(battleResult.getLoser());
+					} else {
+						winningDecepticons.add(battleResult.getWinner().getName());
+						survivorsAutobots.remove(battleResult.getLoser());
+					}
+				} else if (battleResult.isDestroyAll()) {
+					battle.setAllDestroyed(true);
+					survivorsAutobots.remove(battleResult.getLoser());
+					survivorsDecepticons.remove(battleResult.getLoser());
+					break;
 				}
-			} else if (battleResult.isDestroyAll()) {
-				battle.setAllDestroyed(true);
-				autobots.remove(battleResult.getLoser());
-				decepticons.remove(battleResult.getLoser());
-				break;
+				
+				battleCount++;
+				if (battleCount % 10000 == 0) {
+					battleResultService.saveAll(battleResults);
+					battleResults = new ArrayList<BattleResult>();
+				}
 			}
 			
-			battleCount++;
-			if (battleCount % 10000 == 0) {
+			if (!battleResults.isEmpty()) {
 				battleResultService.saveAll(battleResults);
 				battleResults = new ArrayList<BattleResult>();
 			}
+			
+			battle.setBattleStatus(BattleStatus.FINISHED);
+			
+			battle.setWinningAutobots(winningAutobots.stream().collect(Collectors.joining(", ")));
+			battle.setWinningAutobotsSize(winningAutobots.size());
+			battle.setSurvivorsAutobots(survivorsAutobots.stream().map(autobot -> autobot.getName()).collect(Collectors.joining(", ")));
+			
+			battle.setWinningDecepticons(winningDecepticons.stream().collect(Collectors.joining(", ")));
+			battle.setWinningDecepticonsSize(winningDecepticons.size());
+			battle.setSurvivorsDecepticons(survivorsDecepticons.stream().map(decepticon -> decepticon.getName()).collect(Collectors.joining(", ")));
+			
+			if (winningAutobots.size() > winningDecepticons.size()) {
+				battle.setWinningTransformerType(TransformerType.AUTOBOT);
+			} else {
+				battle.setWinningTransformerType(TransformerType.DECEPTICON);
+			}
+			
+			battle = battleService.save(battle);
+		
+		} catch (Exception e) {
+			throw e;
 		}
-		
-		if (!battleResults.isEmpty()) {
-			battleResultService.saveAll(battleResults);
-			battleResults = new ArrayList<BattleResult>();
-		}
-		
-		battle.setBattleStatus(BattleStatus.FINISHED);
-		
-		battle.setWinningAutobots(winningAutobots.stream().collect(Collectors.joining(", ")));
-		battle.setWinningAutobotsSize(winningAutobots.size());
-		battle.setSurvivorsAutobots(autobots.stream().map(autobot -> autobot.getName()).collect(Collectors.joining(", ")));
-		
-		battle.setWinningDecepticons(winningDecepticons.stream().collect(Collectors.joining(", ")));
-		battle.setWinningDecepticonsSize(winningDecepticons.size());
-		battle.setSurvivorsDecepticons(decepticons.stream().map(decepticon -> decepticon.getName()).collect(Collectors.joining(", ")));
-		
-		if (winningAutobots.size() > winningDecepticons.size()) {
-			battle.setWinningTransformerType(TransformerType.AUTOBOT);
-		} else {
-			battle.setWinningTransformerType(TransformerType.DECEPTICON);
-		}
-		
-		battle = battleService.save(battle);
 	}
 
 }
