@@ -1,6 +1,7 @@
 package com.aequilibrium.transformers.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,10 @@ public class BattleService {
 		basicRulesFactory();
 	}
 	
+	public Battle findById(Long id) {
+		return battleRepository.findById(id).orElse(null);
+	}
+	
 	public Battle save(Battle battle) {
 		return battleRepository.save(battle);
 	}
@@ -41,8 +46,8 @@ public class BattleService {
 		}
 	}
 	
-	public List<Battle> findRunningOrFinishedBattles() {
-		return battleRepository.findRunningOrFinishedBattles();
+	public List<Battle> findActiveBattles() {
+		return battleRepository.findByBattleStatusIn(Arrays.asList(BattleStatus.RUNNING, BattleStatus.FINISHED, BattleStatus.ERROR));
 	}
 	
 	public List<Battle> findByBattleStatus(BattleStatus battleStatus) {

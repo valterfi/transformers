@@ -73,9 +73,9 @@ public class TransformerWarService {
 	}
 	
 	public BattleSummaryDTO battleSummary(boolean detailed) throws Exception {
-		List<Battle> battles = battleService.findRunningOrFinishedBattles();
+		List<Battle> battles = battleService.findActiveBattles();
 		if (battles.size() == 0) {
-			throw new Exception("There is no battle running or finished");
+			throw new Exception("There is no battle running, finished or with error");
 		} else if (battles.size() == 1) {
 			return createBattleSummaryDTO(battles.get(0), detailed);
 		} else {
@@ -129,12 +129,13 @@ public class TransformerWarService {
 	}
 
 	private void processBattle(List<Transformer> autobots, List<Transformer> decepticons) {
+		Long battleId = null;
 		try {
-		
 			int battleCount = 0;
 			
 			Battle battle = new Battle();
 			battle = battleService.save(battle);
+			battleId = battle.getId();
 			
 			List<String> winningAutobots = new ArrayList<String>();
 			List<String> winningDecepticons = new ArrayList<String>();
@@ -197,6 +198,11 @@ public class TransformerWarService {
 			battle = battleService.save(battle);
 		
 		} catch (Exception e) {
+			if (battleId != null) {
+				Battle battle = battleService.findById(battleId);
+				battle.setBattleStatus(BattleStatus.ERROR);
+				battleService.save(battle);
+			}
 			throw e;
 		}
 	}

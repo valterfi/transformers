@@ -6,6 +6,6 @@ package com.aequilibrium.transformers.enums;
  */
 public enum BattleStatus {
 	
-	ARCHIVED, CREATED, RUNNING, FINISHED
+	ARCHIVED, CREATED, RUNNING, FINISHED, ERROR
 
 }
