@@ -57,7 +57,7 @@ public class TransformerWarController {
 	}
 	
 	@GetMapping("/noverbose")
-	public BattleSummaryDTO detailedSummary() throws TransformerException {
+	public BattleSummaryDTO noVerboseSummary() throws TransformerException {
 		try {
 			return transformerWarService.battleSummary(false);
 		} catch (Exception e) {
