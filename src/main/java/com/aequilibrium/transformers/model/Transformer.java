@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Transformer implements Comparable<Transformer> {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@NotNull(message = "name must not be null")
@@ -146,6 +146,7 @@ public class Transformer implements Comparable<Transformer> {
 	
 	public Transformer mapTo(Transformer transformer) {
 		this.setName(transformer.getName());
+		this.setTransformerType(transformer.getTransformerType());
 		this.setStrength(transformer.getStrength());
 		this.setIntelligence(transformer.getIntelligence());
 		this.setSpeed(transformer.getSpeed());

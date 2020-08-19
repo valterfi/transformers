@@ -1,6 +1,6 @@
 package com.aequilibrium.transformers.exception;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.springframework.http.HttpStatus;
 
@@ -15,16 +15,27 @@ public class TransformerExceptionResponse {
 	private int status;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-	private LocalDateTime timestamp;
+	private Date timestamp;
 	
 	private String error;
 	
 	private String message;
+	
+	public TransformerExceptionResponse() {
+		
+	}
+
+	public TransformerExceptionResponse(int status, Date timestamp, String error, String message) {
+		this.status = status;
+		this.timestamp = timestamp;
+		this.error = error;
+		this.message = message;
+	}
 
 	public TransformerExceptionResponse(HttpStatus httpStatus, String message) {
 		this.status = httpStatus.value();
 		this.error = httpStatus.name();
-		timestamp = LocalDateTime.now();
+		timestamp = new Date();
 		this.message = message;
 	}
 
@@ -36,11 +47,11 @@ public class TransformerExceptionResponse {
 		this.status = status;
 	}
 
-	public LocalDateTime getTimestamp() {
+	public Date getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(LocalDateTime timestamp) {
+	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
 

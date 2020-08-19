@@ -41,6 +41,16 @@ public class TransformerController {
         return new ResponseEntity<List<Transformer>>(transformers, HttpStatus.OK);
     }
 	
+	@GetMapping("/{id}")
+    public ResponseEntity<Transformer> get(@PathVariable Long id) throws TransformerException {
+		Transformer transformer = transformerService.get(id);
+		if (transformer !=  null) {
+			return new ResponseEntity<Transformer>(transformer, HttpStatus.OK);
+		} else {
+			throw new TransformerException(HttpStatus.NOT_FOUND, "Transformer not found");
+		}
+    }
+	
 	@PostMapping
 	public ResponseEntity<Transformer> add(@RequestBody Transformer transformer) throws TransformerException {
 		if (transformer.getId() == null) {
@@ -62,7 +72,7 @@ public class TransformerController {
 			existTransformer.mapTo(transformer);
 			try {
 				transformerService.save(existTransformer);
-				return new ResponseEntity<Transformer>(HttpStatus.OK);
+				return new ResponseEntity<Transformer>(existTransformer, HttpStatus.OK);
 			} catch (Exception e) {
 				throw new TransformerException(HttpStatus.INTERNAL_SERVER_ERROR, e);
 			}
@@ -103,7 +113,7 @@ public class TransformerController {
 				transformerService.generateRandom(fightersNumber);
 				return new ResponseEntity<Transformer>(HttpStatus.OK);
 			} else {
-				throw new TransformerException(HttpStatus.INTERNAL_SERVER_ERROR, "Fighters mumber must be less than 50000");
+				throw new TransformerException(HttpStatus.INTERNAL_SERVER_ERROR, "Fighters number must be less than 50000");
 			}
 		} catch (Exception e) {
 			throw new TransformerException(HttpStatus.INTERNAL_SERVER_ERROR, e);
