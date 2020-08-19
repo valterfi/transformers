@@ -1,23 +1,33 @@
 package com.aequilibrium.transformers.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BattleSummaryDTO {
 	
-	private Long battlesNumber;
+	private Integer battlesNumber = 0;
 	
-	private String winningTeam;
+	private String battleStatus = "";
 	
-	private String message;
+	private String winningTeam = "";
 	
-	private List<String> losingTeamSurvivors;
+	private String message = "";
+	
+	private String losingTeamSurvivors = "";
+	
+	private List<BattleDetailDTO> details = new ArrayList<BattleDetailDTO>();
 	
 	public static BattleSummaryDTO builder() {
 		return new BattleSummaryDTO();
 	}
 	
-	public BattleSummaryDTO withBattlesNumber(Long battlesNumber) {
+	public BattleSummaryDTO withBattlesNumber(Integer battlesNumber) {
 		this.setBattlesNumber(battlesNumber);
+		return this;
+	}
+	
+	public BattleSummaryDTO withBattleStatus(String battleStatus) {
+		this.setBattleStatus(battleStatus);
 		return this;
 	}
 	
@@ -31,16 +41,21 @@ public class BattleSummaryDTO {
 		return this;
 	}
 	
-	public BattleSummaryDTO withLosingTeamSurvivors(List<String> losingTeamSurvivors) {
+	public BattleSummaryDTO withLosingTeamSurvivors(String losingTeamSurvivors) {
 		this.setLosingTeamSurvivors(losingTeamSurvivors);
 		return this;
 	}
+	
+	public BattleSummaryDTO withDetails(List<BattleDetailDTO> details) {
+		this.setDetails(details);
+		return this;
+	}
 
-	public Long getBattlesNumber() {
+	public Integer getBattlesNumber() {
 		return battlesNumber;
 	}
 
-	public void setBattlesNumber(Long battlesNumber) {
+	public void setBattlesNumber(Integer battlesNumber) {
 		this.battlesNumber = battlesNumber;
 	}
 
@@ -60,12 +75,28 @@ public class BattleSummaryDTO {
 		this.message = message;
 	}
 
-	public List<String> getLosingTeamSurvivors() {
+	public String getLosingTeamSurvivors() {
 		return losingTeamSurvivors;
 	}
 
-	public void setLosingTeamSurvivors(List<String> losingTeamSurvivors) {
+	public void setLosingTeamSurvivors(String losingTeamSurvivors) {
 		this.losingTeamSurvivors = losingTeamSurvivors;
+	}
+
+	public String getBattleStatus() {
+		return battleStatus;
+	}
+
+	public void setBattleStatus(String battleStatus) {
+		this.battleStatus = battleStatus;
+	}
+
+	public List<BattleDetailDTO> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<BattleDetailDTO> details) {
+		this.details = details;
 	}
 
 }

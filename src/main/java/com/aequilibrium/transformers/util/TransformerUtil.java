@@ -16,7 +16,7 @@ public class TransformerUtil {
 	 * Generate random transformer fighter
 	 */
 	public static Transformer random(Integer index, Integer fightersNumber) {
-			return Transformer.builder().withName("Transformer-[" + index + "]")
+			return Transformer.builder().withName("Transformer" + index)
 					.withTransformerType(TransformerType.random())
 					.withStrength(getRandomInteger(MIN_SPEC_VALUE, MAX_SPEC_VALUE + 1))
 					.withIntelligence(getRandomInteger(MIN_SPEC_VALUE, MAX_SPEC_VALUE + 1))

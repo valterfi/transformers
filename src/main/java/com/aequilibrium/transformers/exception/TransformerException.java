@@ -4,12 +4,16 @@ import org.springframework.http.HttpStatus;
 
 public class TransformerException extends Exception {
 	
-	private final HttpStatus status;
+	private HttpStatus status;
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	public TransformerException(String message) {
+		super(message);
+	}
 	
 	public TransformerException(HttpStatus status, String message) {
 		super(message);

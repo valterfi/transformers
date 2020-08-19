@@ -2,6 +2,7 @@ package com.aequilibrium.transformers.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +16,7 @@ public interface BattleRepository extends CrudRepository<Battle, Long> {
 	
 	List<Battle> findByBattleStatusNot(BattleStatus battleStatus);
 	
-//	@Modifying
-//	@Query(value = "UPDATE BATTLE SET BATTLE_STATUS = 'ARCHIVED' WHERE BATTLE_STATUS <> 'ARCHIVED'", nativeQuery = true)
-//	void archiveBattles();
+	@Query(value = "SELECT * FROM BATTLE WHERE BATTLE_STATUS = 'RUNNING' OR BATTLE_STATUS = 'FINISHED'", nativeQuery = true)
+	List<Battle> findRunningOrFinishedBattles();
 
 }
