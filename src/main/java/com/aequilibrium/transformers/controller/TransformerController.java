@@ -99,8 +99,12 @@ public class TransformerController {
 	@PostMapping("/random/{fightersNumber}")
 	public ResponseEntity<Transformer> generateRandom(@PathVariable Integer fightersNumber) throws TransformerException {
 		try {
-			transformerService.generateRandom(fightersNumber);
-			return new ResponseEntity<Transformer>(HttpStatus.OK);
+			if (fightersNumber < 50000) {
+				transformerService.generateRandom(fightersNumber);
+				return new ResponseEntity<Transformer>(HttpStatus.OK);
+			} else {
+				throw new TransformerException(HttpStatus.INTERNAL_SERVER_ERROR, "Fighters mumber must be less than 50000");
+			}
 		} catch (Exception e) {
 			throw new TransformerException(HttpStatus.INTERNAL_SERVER_ERROR, e);
 		}
