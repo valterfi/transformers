@@ -3,9 +3,7 @@ package com.aequilibrium.transformers.model;
 import static com.aequilibrium.transformers.util.Constants.MAX_SPEC_VALUE;
 import static com.aequilibrium.transformers.util.Constants.MIN_SPEC_VALUE;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,7 +13,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -84,10 +81,6 @@ public class Transformer implements Comparable<Transformer> {
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "loser", cascade = CascadeType.REMOVE)
 	private List<BattleResult> battleResultsLoser;
-	
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "transformers", cascade = CascadeType.REMOVE)
-	private Set<Battle> battles = new HashSet<Battle>(0);
  	
 	public Transformer() {
 		
@@ -266,14 +259,6 @@ public class Transformer implements Comparable<Transformer> {
 
 	public void setBattleResultsLoser(List<BattleResult> battleResultsLoser) {
 		this.battleResultsLoser = battleResultsLoser;
-	}
-	
-	public Set<Battle> getBattles() {
-		return battles;
-	}
-
-	public void setBattles(Set<Battle> battles) {
-		this.battles = battles;
 	}
 
 	@Override

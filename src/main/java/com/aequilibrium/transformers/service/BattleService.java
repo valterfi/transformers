@@ -105,7 +105,6 @@ public class BattleService {
 			String rule = "Fighter is 3 or more points of skill above their opponent";
 
 			if (skill1 - skill2 >= 3) {
-				System.out.println("[RULE2] applied");
 				battleResult = BattleResult.builder()
 						.withWinner(autobot)
 						.withLoser(decepticon)
@@ -113,7 +112,6 @@ public class BattleService {
 			}
 
 			if (skill2 - skill1 >= 3) {
-				System.out.println("[RULE2] applied");
 				battleResult = BattleResult.builder()
 						.withWinner(decepticon)
 						.withLoser(autobot)
@@ -173,7 +171,6 @@ public class BattleService {
 			String rule = "Transformer named Optimus Prime or Predaking wins his fight automatically";
 
 			if (name1.equalsIgnoreCase("Optimus Prime") || name1.equalsIgnoreCase("Predaking")) {
-				System.out.println("[SPECIAL RULE2] applied");
 				battleResult = BattleResult.builder()
 						.withWinner(autobot)
 						.withLoser(decepticon)
@@ -181,7 +178,6 @@ public class BattleService {
 			}
 
 			if (name2.equalsIgnoreCase("Optimus Prime") || name2.equalsIgnoreCase("Predaking")) {
-				System.out.println("[SPECIAL RULE2] applied");
 				battleResult = BattleResult.builder()
 						.withWinner(decepticon)
 						.withLoser(autobot)

@@ -10,7 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
 import com.aequilibrium.transformers.enums.BattleStatus;
@@ -29,25 +29,26 @@ public class Battle {
 	@Enumerated(EnumType.STRING)
 	private TransformerType winningTransformerType;
 	
+	@Lob
 	private String winningAutobots = "";
 	
 	private Integer winningAutobotsSize = 0;
 	
+	@Lob
 	private String survivorsAutobots = "";
 	
+	@Lob
 	private String winningDecepticons = "";
 	
 	private Integer winningDecepticonsSize = 0;
 	
+	@Lob
 	private String survivorsDecepticons = "";
 	
 	private Boolean allDestroyed = false;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "battle")
 	private Set<BattleResult> battleResults = new HashSet<BattleResult>(0);
-	
-	@ManyToMany
-	private Set<Transformer> transformers = new HashSet<Transformer>(0);
 
 	public Long getId() {
 		return id;
@@ -71,14 +72,6 @@ public class Battle {
 
 	public void setBattleResults(Set<BattleResult> battleResults) {
 		this.battleResults = battleResults;
-	}
-
-	public Set<Transformer> getTransformers() {
-		return transformers;
-	}
-
-	public void setTransformers(Set<Transformer> transformers) {
-		this.transformers = transformers;
 	}
 
 	public String getWinningAutobots() {

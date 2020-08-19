@@ -65,7 +65,6 @@ public class TransformerService {
 		  .forEach(index -> {
 			  Transformer transformer = TransformerUtil.random(index, fightersNumber);
 			  transformer = transformerRepository.save(transformer);
-			  System.out.println("Criando: " + transformer);
 		  });
 		return CompletableFuture.completedFuture(new ArrayList<Transformer>());
 	}

@@ -79,6 +79,10 @@ public class TransformerWarService {
 		}
 	}
 	
+	public BattleSummaryDTO asyncBattleSummary() {
+		return BattleSummaryDTO.builder().withMessage("Battles will start asynchronously, try to update in a few seconds");
+	}
+	
 	private BattleSummaryDTO createBattleSummaryDTO(Battle battle, boolean detailed) {
 		Set<BattleResult> battleResults = battle.getBattleResults();
 		Integer battlesNumber = battleResults.size();
@@ -112,22 +116,6 @@ public class TransformerWarService {
 					.collect(Collectors.toList());
 		}
 		
-//		if (autobotsLosers.size() == autobots.size() && deceptionsLosers.size() == decepticons.size()) {
-//			System.out.println("All competitors were destroyed");
-//		} else if (deceptionsLosers.size() > autobotsLosers.size()) {
-//			System.out.println("The winning team is autobots");
-//			decepticons.removeAll(deceptionsLosers);
-//			System.out.println("The surviving members of the losing team:");
-//			printTransformers(decepticons);
-//		} else if (deceptionsLosers.size() < autobotsLosers.size()) {
-//			System.out.println("The winning team is deceptions");
-//			autobots.removeAll(autobotsLosers);
-//			System.out.println("The surviving members of the losing team:");
-//			printTransformers(autobots);
-//		} else {
-//			System.out.println("Tie");
-//		}
-		
 		return BattleSummaryDTO.builder().withBattlesNumber(battlesNumber)
 				.withBattleStatus(battle.getBattleStatus().name())
 				.withWinningTeam(winningTeam)
@@ -140,9 +128,6 @@ public class TransformerWarService {
 		int battleCount = 0;
 		
 		Battle battle = new Battle();
-		battle.getTransformers().addAll(autobots);
-		battle.getTransformers().addAll(decepticons);
-		
 		battle = battleService.save(battle);
 		
 		List<String> winningAutobots = new ArrayList<String>();
@@ -154,7 +139,6 @@ public class TransformerWarService {
 		battle = battleService.save(battle);
 		
 		for (int i = 0; i < autobots.size() && i < decepticons.size(); i++) {
-			System.out.println("Battle #" + (i+1));
 			Integer order = (i+1);
 			BattleResult battleResult = battleService.run(order, battle, autobots.get(i), decepticons.get(i));
 			battleResults.add(battleResult);
@@ -166,21 +150,18 @@ public class TransformerWarService {
 					winningDecepticons.add(battleResult.getWinner().getName());
 					autobots.remove(battleResult.getLoser());
 				}
-				System.out.println("The winner is " + battleResult.getWinner());
 			} else if (battleResult.isDestroyAll()) {
 				battle.setAllDestroyed(true);
 				autobots.remove(battleResult.getLoser());
 				decepticons.remove(battleResult.getLoser());
 				break;
-			} else {
-				System.out.println("No winners");
 			}
+			
 			battleCount++;
 			if (battleCount % 10000 == 0) {
 				battleResultService.saveAll(battleResults);
 				battleResults = new ArrayList<BattleResult>();
 			}
-			System.out.println();
 		}
 		
 		if (!battleResults.isEmpty()) {
@@ -205,31 +186,6 @@ public class TransformerWarService {
 		}
 		
 		battle = battleService.save(battle);
-		
-//		System.out.println("------------------------");
-//		System.out.println("The number of battles: " + battleCount);
-//		
-//		if (autobotsLosers.size() == autobots.size() && deceptionsLosers.size() == decepticons.size()) { destroy All
-//			System.out.println("All competitors were destroyed");
-//		} else if (deceptionsLosers.size() > autobotsLosers.size()) {
-//			System.out.println("The winning team is autobots");
-//			decepticons.removeAll(deceptionsLosers);
-//			System.out.println("The surviving members of the losing team:");
-//			printTransformers(decepticons);
-//		} else if (deceptionsLosers.size() < autobotsLosers.size()) {
-//			System.out.println("The winning team is deceptions");
-//			autobots.removeAll(autobotsLosers);
-//			System.out.println("The surviving members of the losing team:");
-//			printTransformers(autobots);
-//		} else {
-//			System.out.println("Tie");
-//		}
-	}
-	
-	public void printTransformers(List<Transformer> transformers) {
-		for (Transformer transformer : transformers) {
-			System.out.println(transformer);
-		}
 	}
 
 }

@@ -27,7 +27,7 @@ public class TransformerWarController {
 			try {
 				if (ids.size() > 1000) {
 					transformerWarService.runAsync(ids);
-					return transformerWarService.battleSummary(false);
+					return transformerWarService.asyncBattleSummary();
 				} else {
 					transformerWarService.run(ids);
 					return transformerWarService.battleSummary(true);
