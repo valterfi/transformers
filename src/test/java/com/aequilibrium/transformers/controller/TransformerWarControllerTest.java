@@ -88,7 +88,6 @@ public class TransformerWarControllerTest {
 	@Test
 	public void shouldReturnNoVerboseSummaryTransformerWar() throws Exception {
 		List<Long> ids = new ArrayList<Long>(Arrays.asList(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 11L, 12L, 13L, 14L, 15L));
-
 		
 		mockMvc.perform( MockMvcRequestBuilders
 			      .post("/api/transformers/war")

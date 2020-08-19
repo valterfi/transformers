@@ -42,13 +42,13 @@ public class TransformerWarService {
 		return !battles.isEmpty();
 	}
 	
-	public void run(List<Long> ids) {
+	public Battle run(List<Long> ids) {
 		battleService.archiveBattles();
 		
 		List<Transformer> autobots = new ArrayList<Transformer>();
 		List<Transformer> decepticons = new ArrayList<Transformer>();
 		
-		int size = 1;
+		int size = Integer.MAX_VALUE;
 		if (ids.size() > 1000) {
 			size = ids.size() / 1000;
 		}
@@ -63,7 +63,7 @@ public class TransformerWarService {
 		Collections.sort(autobots);
 		Collections.sort(decepticons);
 		
-		processBattle(autobots, decepticons);
+		return processBattle(autobots, decepticons);
 	}
 	
 	@Async
@@ -128,7 +128,7 @@ public class TransformerWarService {
 				.withDetails(battleDetailDTO);
 	}
 
-	private void processBattle(List<Transformer> autobots, List<Transformer> decepticons) {
+	private Battle processBattle(List<Transformer> autobots, List<Transformer> decepticons) {
 		Long battleId = null;
 		try {
 			int battleCount = 0;
@@ -195,7 +195,7 @@ public class TransformerWarService {
 				battle.setWinningTransformerType(TransformerType.DECEPTICON);
 			}
 			
-			battle = battleService.save(battle);
+			return battleService.save(battle);
 		
 		} catch (Exception e) {
 			if (battleId != null) {
