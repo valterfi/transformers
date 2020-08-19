@@ -165,6 +165,9 @@ public class TransformerWarService {
 					survivorsAutobots.remove(battleResult.getLoser());
 					survivorsDecepticons.remove(battleResult.getLoser());
 					break;
+				} else {
+					survivorsAutobots.remove(battleResult.getLoser());
+					survivorsDecepticons.remove(battleResult.getLoser());
 				}
 				
 				battleCount++;
