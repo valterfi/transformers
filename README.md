@@ -1,6 +1,8 @@
 # Transformers War
 Java Backend Developer Technical Test
 
+![](autobot.gif)
+
 ### Tech
   * [Swagger] 
   * [H2 Database] 
@@ -21,7 +23,7 @@ Java Backend Developer Technical Test
 | PUT      |    api/transformers/{id}                 |
 | GET      |    /api/transformers/war                 |
 | POST     |    /api/transformers/war                 |
-| GET      |    /api/transformers/war/noverbose       |
+| GET      |    /api/transformers/war/noVerbose       |
 
 ### Some considerations
 
@@ -29,24 +31,28 @@ Java Backend Developer Technical Test
 - I created the paged search already imagining that there could be a situation of having a large number of transformers.
 - An option to create random transformers was implemented.
 - I created requests related to the execution of the war.
-  - It is possible to see the result of the war after executing the war-related GET methods
+  - It is possible to see the result of the war after executing the war-related GET methods.
   - An option has been implemented to bring in more detail or not the result of the war.
 
 - I made the implementation of the battles to support a good number of transforming fighters.
 -  Despite this, I have set a minimum value, at least in the option of generating random transformers, of 50,0000 transformers that can fight in a battle.
 
-- I assumed that the order of precedence of the rules
-  - "Transformer named Optimus Prime or Predaking face each other (or a duplicate of each other), the game immediately ends with all competitors destroyed"
-  - "Transformer named Optimus Prime or Predaking wins his fight automatically"
-  - "Fighter is down 4 or more points of courage and 3 or more points of strength compared to their opponent"
-  - "Fighter is 3 or more points of skill above their opponent"
-  - "Default Rule"
+- I assumed that the order of precedence of the rules:
+  - "Transformer named Optimus Prime or Predaking face each other (or a duplicate of each other), the game immediately ends with all competitors destroyed".
+  - "Transformer named Optimus Prime or Predaking wins his fight automatically".
+  - "Fighter is down 4 or more points of courage and 3 or more points of strength compared to their opponent".
+  - "Fighter is 3 or more points of skill above their opponent".
+  - "Default Rule".
 
 - It is possible to consult the result of the last battle until starting a new one. Battles have a persistence control in the database.
 
 - Until the previous battle is over, it is not possible to create a new one.
 
 - I configured a Documentation API using swagger. It is available in the /swagger-ui.html path.
+
+- I applied integration tests with the database at the application's controller layer.
+
+- Unit tests were implemented using mockito.
 
 ### Prerequisites
 
@@ -74,6 +80,8 @@ Java Backend Developer Technical Test
     $ docker build -f Dockerfile  -t transformers .
     $ docker run -p 8080:8080 transformers
     ``` 
+
+![](decepticon.gif)
 
 [Swagger]: <https://swagger.io/>
 [H2 Database]: <http://www.h2database.com/>
