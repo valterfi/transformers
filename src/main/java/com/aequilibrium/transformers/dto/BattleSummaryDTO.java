@@ -6,6 +6,7 @@ import java.util.List;
 /**
  * @author valterfi
  *
+ * DTO responsible to aggregate the main information of the status of all the battles of the last war.
  */
 public class BattleSummaryDTO {
 	

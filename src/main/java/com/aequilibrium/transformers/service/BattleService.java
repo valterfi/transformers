@@ -17,6 +17,7 @@ import com.aequilibrium.transformers.repository.BattleRepository;
 /**
  * @author valterfi
  *
+ * Service that processes the action of the battle between two transformers. That service that processes what was the winning rule of the battle.
  */
 @Service
 public class BattleService {
@@ -199,10 +200,6 @@ public class BattleService {
 
 	/**
 	 * Run the battle
-	 * 
-	 * @param autobot
-	 * @param decepticon
-	 * @return The winner is the Transformer with the highest overall rating if they have not passed the other rules
 	 */
 	public BattleResult run(Integer battleOrder, Battle battle, Transformer autobot, Transformer decepticon) {
 		BattleResult battleResult = null;

@@ -32,6 +32,9 @@ public class TransformerExceptionController {
 	    return new ResponseEntity<TransformerExceptionResponse>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 	
+	/**
+	 * Handle exceptions to database constraints to better be viewed by the end user
+	 */
 	@ExceptionHandler(value = TransformerException.class)
 	public ResponseEntity<TransformerExceptionResponse> transformerException(TransformerException transformerException) {
 		Throwable rootCause = ExceptionUtils.getRootCause(transformerException);

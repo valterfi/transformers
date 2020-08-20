@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * @author valterfi
  *
+ * Response to aggregate error information
  */
 public class TransformerExceptionResponse {
 	

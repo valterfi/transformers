@@ -6,6 +6,7 @@ import com.aequilibrium.transformers.model.Transformer;
 /**
  * @author valterfi
  *
+ * It represents each rule that can be implemented in the war of the transformers.
  */
 @FunctionalInterface
 public interface RuleFunction {

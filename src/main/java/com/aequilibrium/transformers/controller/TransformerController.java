@@ -22,7 +22,8 @@ import com.aequilibrium.transformers.service.TransformerService;
 
 /**
  * @author valterfi
- *
+ * 
+ * Controller responsible for maintaining the Transformers
  */
 @RestController
 @RequestMapping("/api/transformers")
@@ -32,6 +33,9 @@ public class TransformerController {
 	@Autowired
 	private TransformerService transformerService;
 	
+	/**
+	 * Returns transformers. The call can be paged or not.
+	 */
 	@GetMapping
     public ResponseEntity<List<Transformer>> findAll(@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "0") Integer pageSize) {
 		List<Transformer> transformers = null;
@@ -43,6 +47,9 @@ public class TransformerController {
         return new ResponseEntity<List<Transformer>>(transformers, HttpStatus.OK);
     }
 	
+	/**
+	 * Returns a single transformer
+	 */
 	@GetMapping("/{id}")
     public ResponseEntity<Transformer> get(@PathVariable Long id) throws TransformerException {
 		Transformer transformer = transformerService.get(id);
@@ -53,6 +60,9 @@ public class TransformerController {
 		}
     }
 	
+	/**
+	 * Records a new transformer. It is not allowed to send transformer bodys with id.
+	 */
 	@PostMapping
 	public ResponseEntity<Transformer> add(@RequestBody Transformer transformer) throws TransformerException {
 		if (transformer.getId() == null) {
@@ -67,6 +77,9 @@ public class TransformerController {
 		}
 	}
 	
+	/**
+	 * Updates a transformer given its id
+	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<Transformer> update(@RequestBody Transformer transformer, @PathVariable Long id) throws TransformerException {
 		Transformer existTransformer = transformerService.get(id);
@@ -83,6 +96,9 @@ public class TransformerController {
 		}
 	}
 	
+	/**
+	 * Unregisters a transformer
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Transformer> delete(@PathVariable Long id) throws TransformerException {
 		Transformer existTransformer = transformerService.get(id);
@@ -98,6 +114,9 @@ public class TransformerController {
 		}
 	}
 	
+	/**
+	 * Removes all transformer and its dependencies already recorded
+	 */
 	@DeleteMapping("/deleteAll")
 	public ResponseEntity<Transformer> deleteAll() throws TransformerException {
 		try {
@@ -108,6 +127,9 @@ public class TransformerController {
 		}
 	}
 	
+	/**
+	 * Generates random transformers according to the number of fighters
+	 */
 	@PostMapping("/random/{fightersNumber}")
 	public ResponseEntity<Transformer> generateRandom(@PathVariable Integer fightersNumber) throws TransformerException {
 		try {

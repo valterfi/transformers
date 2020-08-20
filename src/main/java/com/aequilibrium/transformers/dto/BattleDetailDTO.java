@@ -4,6 +4,8 @@ import com.aequilibrium.transformers.model.Transformer;
 
 /**
  * @author valterfi
+ * 
+ * DTO responsible for storing the most important details and information of each battle.
  *
  */
 public class BattleDetailDTO {

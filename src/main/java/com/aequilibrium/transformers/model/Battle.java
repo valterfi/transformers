@@ -18,7 +18,8 @@ import com.aequilibrium.transformers.enums.TransformerType;
 
 /**
  * @author valterfi
- *
+ * 
+ * It is an aggregator of all the battles that are going to happen.
  */
 @Entity
 public class Battle {

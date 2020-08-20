@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 /**
  * @author valterfi
  *
+ * Represents the unique outcome of the battle between two transformers
  */
 @Entity
 public class BattleResult {

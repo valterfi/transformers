@@ -17,6 +17,8 @@ import com.aequilibrium.transformers.service.TransformerWarService;
 
 /**
  * @author valterfi
+ * 
+ * Controller responsible for controlling wars between transformers
  *
  */
 @RestController
@@ -27,6 +29,9 @@ public class TransformerWarController {
 	@Autowired
 	private TransformerWarService transformerWarService;
 	
+	/**
+	 * Perform a new battle between the transformers. Running a new battle is not allowed if any battles are still in progress.
+	 */
 	@PostMapping
 	public BattleSummaryDTO execute(@RequestBody List<Long> ids) throws TransformerException {
 		if (!transformerWarService.existBattleRunning()) {
@@ -47,6 +52,9 @@ public class TransformerWarController {
 		}
 	}
 	
+	/**
+	 * Returns the summary of the last battle that happened
+	 */
 	@GetMapping
 	public BattleSummaryDTO summary() throws TransformerException {
 		try {
@@ -56,6 +64,9 @@ public class TransformerWarController {
 		}
 	}
 	
+	/**
+	 * Returns summary less details of the last battle that happened
+	 */
 	@GetMapping("/noVerbose")
 	public BattleSummaryDTO noVerboseSummary() throws TransformerException {
 		try {

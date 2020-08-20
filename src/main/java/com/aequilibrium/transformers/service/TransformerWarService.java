@@ -24,6 +24,7 @@ import com.google.common.collect.Lists;
 /**
  * @author valterfi
  *
+ * Service responsible for taking the result of all the battles of a war and processing to show what the result was.
  */
 @Service
 public class TransformerWarService {
@@ -42,6 +43,9 @@ public class TransformerWarService {
 		return !battles.isEmpty();
 	}
 	
+	/**
+	 * Transform the list of ids into two lists of transformers and make them fight each other
+	 */
 	public Battle run(List<Long> ids) {
 		battleService.archiveBattles();
 		
@@ -72,6 +76,9 @@ public class TransformerWarService {
 		return CompletableFuture.completedFuture(new ArrayList<Long>(ids));
 	}
 	
+	/**
+	 * Generates the summary generates from the last battle or the battle that has not yet ended
+	 */
 	public BattleSummaryDTO battleSummary(boolean detailed) throws Exception {
 		List<Battle> battles = battleService.findActiveBattles();
 		if (battles.size() == 0) {
@@ -83,10 +90,16 @@ public class TransformerWarService {
 		}
 	}
 	
+	/**
+	 * Returns summary to the user for when there are too many fighters to fight
+	 */
 	public BattleSummaryDTO asyncBattleSummary() {
 		return BattleSummaryDTO.builder().withMessage("Battles will start asynchronously, try to update in a few seconds");
 	}
 	
+	/**
+	 * Once the battle is over this method maps all the results for the DTO to show to the end user
+	 */
 	private BattleSummaryDTO createBattleSummaryDTO(Battle battle, boolean detailed) {
 		Set<BattleResult> battleResults = battle.getBattleResults();
 		Integer battlesNumber = battleResults.size();
@@ -128,6 +141,9 @@ public class TransformerWarService {
 				.withDetails(battleDetailDTO);
 	}
 
+	/**
+	 * Processes who are the winners and survivors I record everything in the battle record
+	 */
 	private Battle processBattle(List<Transformer> autobots, List<Transformer> decepticons) {
 		Long battleId = null;
 		try {

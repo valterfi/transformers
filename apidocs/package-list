@@ -1,0 +1,10 @@
+com.aequilibrium.transformers
+com.aequilibrium.transformers.controller
+com.aequilibrium.transformers.dto
+com.aequilibrium.transformers.enums
+com.aequilibrium.transformers.exception
+com.aequilibrium.transformers.function
+com.aequilibrium.transformers.model
+com.aequilibrium.transformers.repository
+com.aequilibrium.transformers.service
+com.aequilibrium.transformers.util
