@@ -103,7 +103,7 @@ public class TransformerWarControllerTest {
 			      .andExpect(jsonPath("$.details").isNotEmpty());
 		
 		mockMvc.perform( MockMvcRequestBuilders
-			      .get("/api/transformers/war/noverbose")
+			      .get("/api/transformers/war/noVerbose")
 			      .contentType(MediaType.APPLICATION_JSON)
 			      .accept(MediaType.APPLICATION_JSON))
 			      .andExpect(status().isOk())
